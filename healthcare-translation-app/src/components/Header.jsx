@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * Header component displaying the application branding and logo.
+ * Provides consistent navigation identity across all application views.
+ */
 const Header = () => {
   return (
     <header className="header">

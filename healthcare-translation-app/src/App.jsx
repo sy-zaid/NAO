@@ -6,6 +6,11 @@ import ControlButtons from "./components/ControlButtons";
 import { useSpeechRecognition } from "./hooks/useSpeechRecognition";
 import "./App.css";
 
+/**
+ * Main application component that orchestrates the speech translation workflow.
+ * Manages language settings, notification system, and coordinates between UI components
+ * and the speech recognition hook.
+ */
 function App() {
   const [inputLanguage, setInputLanguage] = useState("en-US");
   const [outputLanguage, setOutputLanguage] = useState("en");
@@ -14,6 +19,13 @@ function App() {
     message: "",
     type: "",
   });
+
+  /**
+   * Custom hook that handles speech recognition, translation, and text processing
+   * @param {string} inputLanguage - BCP 47 language tag for speech recognition
+   * @param {string} outputLanguage - Target language for translation
+   * @param {function} showNotification - Callback for displaying user notifications
+   */
   const {
     isListening,
     transcript,
@@ -25,6 +37,11 @@ function App() {
     copyTranslation,
   } = useSpeechRecognition(inputLanguage, outputLanguage, showNotification);
 
+  /**
+   * Displays a temporary notification to the user
+   * @param {string} message - Notification content to display
+   * @param {string} type - Notification type: 'info', 'warning', 'error', or 'success'
+   */
   function showNotification(message, type = "info") {
     setNotification({ show: true, message, type });
     setTimeout(() => {

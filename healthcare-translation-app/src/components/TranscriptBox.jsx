@@ -1,5 +1,19 @@
 import React from "react";
 
+/**
+ * TranscriptBox component displays speech recognition results with optional
+ * medical terminology enhancement and action buttons for text manipulation.
+ *
+ * @param {Object} props - Component properties
+ * @param {string} props.title - Box title/header text
+ * @param {string} props.content - Text content to display
+ * @param {string} props.status - Status indicator text (e.g., "Listening...")
+ * @param {boolean} props.isListening - Indicates if speech recognition is active
+ * @param {boolean} props.showActions - Controls visibility of action buttons
+ * @param {function} props.onSpeak - Callback for text-to-speech functionality
+ * @param {function} props.onCopy - Callback for copy-to-clipboard functionality
+ * @param {boolean} props.isTranslated - Indicates if content is translated text
+ */
 const TranscriptBox = ({
   title,
   content,
@@ -42,7 +56,13 @@ const TranscriptBox = ({
   );
 };
 
-// Helper function to enhance medical terms with highlighting
+/**
+ * Helper function that enhances common medical terms with clinical terminology
+ * and highlights them for user awareness. Uses HTML injection for styling.
+ *
+ * @param {string} text - Input text to process for medical terminology enhancement
+ * @returns {JSX.Element|string} Enhanced text with highlighted medical terms or original text
+ */
 function enhanceMedicalTerms(text) {
   if (!text) return text;
 

@@ -1,17 +1,27 @@
-import React from 'react'
+import React from "react";
 
+/**
+ * LanguageSelector component provides dropdown interfaces for selecting
+ * input (speech recognition) and output (translation) languages.
+ *
+ * @param {Object} props - Component properties
+ * @param {string} props.inputLanguage - Currently selected input language code
+ * @param {string} props.outputLanguage - Currently selected output language code
+ * @param {function} props.onInputLanguageChange - Callback for input language selection changes
+ * @param {function} props.onOutputLanguageChange - Callback for output language selection changes
+ */
 const LanguageSelector = ({
   inputLanguage,
   outputLanguage,
   onInputLanguageChange,
-  onOutputLanguageChange
+  onOutputLanguageChange,
 }) => {
   return (
     <div className="language-selectors">
       <div className="form-group">
         <label htmlFor="inputLanguage">Input Language</label>
-        <select 
-          id="inputLanguage" 
+        <select
+          id="inputLanguage"
           value={inputLanguage}
           onChange={(e) => onInputLanguageChange(e.target.value)}
         >
@@ -29,8 +39,8 @@ const LanguageSelector = ({
       </div>
       <div className="form-group">
         <label htmlFor="outputLanguage">Output Language</label>
-        <select 
-          id="outputLanguage" 
+        <select
+          id="outputLanguage"
           value={outputLanguage}
           onChange={(e) => onOutputLanguageChange(e.target.value)}
         >
@@ -47,7 +57,7 @@ const LanguageSelector = ({
         </select>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LanguageSelector
+export default LanguageSelector;

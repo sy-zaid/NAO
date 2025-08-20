@@ -1,6 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 
-// Medical terms mapping for enhancement
+/**
+ * Medical terminology mapping for enhancing common terms with clinical equivalents
+ * Used to improve accuracy and professionalism in medical documentation
+ */
 const medicalTermsMap = {
   headache: "cephalalgia",
   fever: "pyrexia",
@@ -18,7 +21,10 @@ const medicalTermsMap = {
   "bug bite": "arthropod assault",
 };
 
-// Language code mapping for MyMemory API
+/**
+ * Maps browser language codes to standardized codes for API compatibility
+ * Handles regional variants (en-US → en, es-ES → es, etc.)
+ */
 const languageCodeMap = {
   en: "en",
   es: "es",
@@ -43,7 +49,10 @@ const languageCodeMap = {
   "ar-SA": "ar",
 };
 
-// MyMemory API language pairs (supported combinations)
+/**
+ * Supported language translation pairs for MyMemory API
+ * Defines which language combinations are available for translation
+ */
 const supportedLanguagePairs = {
   en: ["es", "fr", "de", "it", "pt", "ru", "zh", "ja", "ar"],
   es: ["en", "fr", "de", "it", "pt"],
@@ -57,21 +66,35 @@ const supportedLanguagePairs = {
   ar: ["en"],
 };
 
-// --- SECURITY: Input sanitization function ---
+/**
+ * Sanitizes input strings to prevent XSS attacks
+ * Removes HTML tags, JavaScript protocols, and dangerous attributes
+ * @param {string} input - Raw user input to sanitize
+ * @returns {string} Sanitized safe string
+ */
 const sanitizeInput = (input) => {
-  if (typeof input !== 'string') return '';
-  
+  if (typeof input !== "string") return "";
+
   // Remove potentially dangerous characters and scripts
   return input
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/<\/?[^>]+(>|$)/g, '')
-    .replace(/javascript:/gi, '')
-    .replace(/onerror/gi, '')
-    .replace(/onload/gi, '')
-    .replace(/onclick/gi, '')
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+    .replace(/<\/?[^>]+(>|$)/g, "")
+    .replace(/javascript:/gi, "")
+    .replace(/onerror/gi, "")
+    .replace(/onload/gi, "")
+    .replace(/onclick/gi, "")
     .trim();
 };
 
+/**
+ * Custom hook for speech recognition and medical translation
+ * Provides real-time speech-to-text with medical terminology enhancement
+ * and multi-language translation capabilities
+ * @param {string} inputLanguage - Source language for speech recognition
+ * @param {string} outputLanguage - Target language for translation
+ * @param {function} showNotification - Callback for user notifications
+ * @returns {Object} Speech recognition controls and state
+ */
 export const useSpeechRecognition = (
   inputLanguage,
   outputLanguage,
@@ -85,7 +108,10 @@ export const useSpeechRecognition = (
 
   // --- SECURITY: HTTPS Enforcement ---
   useEffect(() => {
-    if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+    if (
+      window.location.protocol !== "https:" &&
+      window.location.hostname !== "localhost"
+    ) {
       showNotification(
         "Warning: For patient security, please use HTTPS. Data transmission may not be secure.",
         "warning"
@@ -100,7 +126,7 @@ export const useSpeechRecognition = (
       if (inactivityTimerRef.current) {
         clearTimeout(inactivityTimerRef.current);
       }
-      
+
       // Clear sensitive data after 5 minutes of inactivity
       inactivityTimerRef.current = setTimeout(() => {
         if (transcript || translatedText) {
@@ -112,8 +138,8 @@ export const useSpeechRecognition = (
     };
 
     // Set up event listeners for user activity
-    const events = ['mousedown', 'keypress', 'scroll', 'touchstart'];
-    events.forEach(event => {
+    const events = ["mousedown", "keypress", "scroll", "touchstart"];
+    events.forEach((event) => {
       window.addEventListener(event, resetTimer);
     });
 
@@ -124,28 +150,44 @@ export const useSpeechRecognition = (
       if (inactivityTimerRef.current) {
         clearTimeout(inactivityTimerRef.current);
       }
-      events.forEach(event => {
+      events.forEach((event) => {
         window.removeEventListener(event, resetTimer);
       });
     };
   }, [transcript, translatedText, showNotification]);
 
-  // Function to detect input language from speech recognition language code
+  /**
+   * Detects base language code from recognition language setting
+   * @param {string} recognitionLang - Full language code from speech recognition
+   * @returns {string} Standardized language code
+   */
   const detectInputLanguage = (recognitionLang) => {
     const baseLang = recognitionLang.split("-")[0];
     return languageCodeMap[baseLang] || "en";
   };
 
-  // Check if language pair is supported by MyMemory
+  /**
+   * Validates if a language pair is supported by the translation API
+   * @param {string} sourceLang - Source language code
+   * @param {string} targetLang - Target language code
+   * @returns {boolean} True if the language pair is supported
+   */
   const isLanguagePairSupported = (sourceLang, targetLang) => {
     return supportedLanguagePairs[sourceLang]?.includes(targetLang) || false;
   };
 
-  // MyMemory Translation API integration
+  /**
+   * Translates text using MyMemory API with fallback handling
+   * Includes input sanitization and error handling
+   * @param {string} text - Text to translate
+   * @param {string} targetLang - Target language code
+   * @param {string} sourceLang - Source language code
+   * @returns {Promise<string>} Translated text
+   */
   const translateWithMyMemory = async (text, targetLang, sourceLang) => {
     // --- SECURITY: Sanitize input before sending to API ---
     const sanitizedText = sanitizeInput(text);
-    
+
     // Don't translate if source and target languages are the same
     if (sourceLang === targetLang) {
       return sanitizedText;
@@ -193,11 +235,17 @@ export const useSpeechRecognition = (
     }
   };
 
-  // Client-side fallback translation for common medical phrases
+  /**
+   * Client-side fallback translation for common medical phrases
+   * Used when API translation is unavailable
+   * @param {string} text - Text to translate
+   * @param {string} targetLang - Target language code
+   * @returns {string} Translated text
+   */
   const clientSideFallback = (text, targetLang) => {
     // --- SECURITY: Sanitize input ---
     const sanitizedText = sanitizeInput(text);
-    
+
     const commonTranslations = {
       en: {
         pain: "pain",
@@ -252,11 +300,16 @@ export const useSpeechRecognition = (
     return translatedWords.join(" ");
   };
 
-  // Handle fallback translation
+  /**
+   * Handles translation fallback with multiple strategies
+   * @param {string} text - Text to translate
+   * @param {string} targetLang - Target language code
+   * @returns {string} Translated text or fallback message
+   */
   const handleFallbackTranslation = (text, targetLang) => {
     // --- SECURITY: Sanitize input ---
     const sanitizedText = sanitizeInput(text);
-    
+
     const langNames = {
       es: "Spanish",
       fr: "French",
@@ -282,11 +335,15 @@ export const useSpeechRecognition = (
     }]`;
   };
 
-  // Enhance medical terms in the text
+  /**
+   * Enhances common medical terms with clinical terminology
+   * @param {string} text - Input text to enhance
+   * @returns {string} Text with enhanced medical terminology
+   */
   const enhanceMedicalTerms = (text) => {
     // --- SECURITY: Sanitize input ---
     const sanitizedText = sanitizeInput(text);
-    
+
     let enhancedText = sanitizedText;
     Object.entries(medicalTermsMap).forEach(([common, medical]) => {
       const regex = new RegExp(`\\b${common}\\b`, "gi");
@@ -295,6 +352,10 @@ export const useSpeechRecognition = (
     return enhancedText;
   };
 
+  /**
+   * Starts speech recognition and sets up event handlers
+   * Includes browser compatibility checks and error handling
+   */
   const startListening = useCallback(() => {
     // Check if browser supports speech recognition
     if (
@@ -382,6 +443,9 @@ export const useSpeechRecognition = (
     }
   }, [inputLanguage, outputLanguage, showNotification]);
 
+  /**
+   * Stops the speech recognition process
+   */
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
       recognitionRef.current.stop();
@@ -390,12 +454,19 @@ export const useSpeechRecognition = (
     setIsListening(false);
   }, []);
 
+  /**
+   * Clears all transcript and translation data
+   */
   const clearText = useCallback(() => {
     setTranscript("");
     setTranslatedText("");
     showNotification("Text cleared", "info");
   }, [showNotification]);
 
+  /**
+   * Uses speech synthesis to speak the translated text
+   * Includes browser compatibility check
+   */
   const speakTranslation = useCallback(() => {
     if (!translatedText) return;
 
@@ -422,6 +493,10 @@ export const useSpeechRecognition = (
     showNotification("Playing translation", "info");
   }, [translatedText, outputLanguage, showNotification]);
 
+  /**
+   * Copies translated text to clipboard
+   * Includes success/error handling
+   */
   const copyTranslation = useCallback(() => {
     if (!translatedText) return;
 
