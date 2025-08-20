@@ -1,0 +1,185 @@
+:root {
+  --primary: #2a7de1;
+  --primary-dark: #1c5fb3;
+  --secondary: #4caf50;
+  --danger: #f44336;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --gray: #6c757d;
+  --light-gray: #e9ecef;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f5f7f9;
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.card {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+}
+
+.btn-secondary:hover {
+  background-color: #3d8b40;
+}
+
+.btn-danger {
+  background-color: var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: #d32f2f;
+}
+
+.btn:disabled {
+  background-color: var(--gray);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.status-listening {
+  background-color: var(--secondary);
+  box-shadow: 0 0 0 0 rgba(76, 175, 80, 1);
+  animation: pulse 1.5s infinite;
+}
+
+.status-inactive {
+  background-color: var(--gray);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+.action-btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.instructions {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #e8f4fc;
+  border-left: 4px solid var(--primary);
+  border-radius: 4px;
+}
+
+.medical-terms {
+  background-color: #f0f9f0;
+  border-left: 4px solid var(--secondary);
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+}
+
+.medical-terms h4 {
+  color: var(--secondary);
+  margin-bottom: 0.5rem;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem;
+  background-color: white;
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  transform: translateX(150%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 767px) {
+  .controls {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
