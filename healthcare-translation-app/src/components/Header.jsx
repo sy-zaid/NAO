@@ -6,7 +6,7 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <div className="logo">
-            <i>⚕️</i> MedTranslate 
+            <i>⚕️</i> MedTranslate
           </div>
         </div>
       </div>
