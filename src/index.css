@@ -131,6 +131,7 @@ body {
   border-left: 4px solid var(--secondary);
   padding: 1rem;
   margin-top: 1rem;
+  padding-left: 28px;
   border-radius: 4px;
 }
 
@@ -183,4 +184,12 @@ body {
   .btn {
     width: 100%;
   }
+}
+
+.footer-content {
+  background-color: #1c5fb3;
+  width: 100%;
+  height: auto;
+  color: #747474;
+
 }

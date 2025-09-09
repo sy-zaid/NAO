@@ -117,10 +117,11 @@ function App() {
       <footer>
         <div className="container">
           <div className="footer-content">
-            <img
-              src="https://naomedical.com/main-page-assets/images/Nao-Medical-Logo-3.svg"
-              alt=""
-            />
+            <h4>
+              Website Design by: Syed Muhammad Zaid | &copy;
+              <span>{new Date().getFullYear()}</span> syedzaid. All rights
+              reserved.
+            </h4>
           </div>
         </div>
       </footer>
