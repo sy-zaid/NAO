@@ -120,7 +120,8 @@ body {
 .instructions {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background-color: #e8f4fc;
+  background-color: #1e365f;
+  color:#fff;
   border-left: 4px solid var(--primary);
   border-radius: 4px;
 }

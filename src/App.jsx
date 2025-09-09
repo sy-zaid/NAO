@@ -117,8 +117,10 @@ function App() {
       <footer>
         <div className="container">
           <div className="footer-content">
-            <p>MediTranslate - Healthcare Translation App</p>
-            <p>Built with Web Speech API and SpeechSynthesis API</p>
+            <img
+              src="https://naomedical.com/main-page-assets/images/Nao-Medical-Logo-3.svg"
+              alt=""
+            />
           </div>
         </div>
       </footer>

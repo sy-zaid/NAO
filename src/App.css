@@ -124,7 +124,7 @@ select:focus {
 }
 
 footer {
-  background-color: var(--dark);
+  background-color: white;
   color: white;
   padding: 1.5rem 0;
   margin-top: 2rem;
@@ -132,4 +132,5 @@ footer {
 
 .footer-content {
   text-align: center;
+  background-color: white;
 }
